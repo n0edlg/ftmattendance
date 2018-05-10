@@ -1,0 +1,175 @@
+<ion-header>
+  <ion-navbar color="nav-header">
+    <ion-title>
+        {{ group.name }}
+    </ion-title>
+
+    <ion-buttons end>
+        <button *ngIf="segmentTab == 'stats'" ion-button (click)="exportCSV_clickHandler()">
+            Share
+        </button>
+    </ion-buttons>
+  </ion-navbar>
+
+    <ion-toolbar>
+        <ion-segment [(ngModel)]="segmentTab" (ionChange)="segmentChanged($event)">
+            <ion-segment-button value="members">
+                Members
+            </ion-segment-button>
+            <ion-segment-button value="attendances">
+                Attendances
+            </ion-segment-button>
+            <ion-segment-button value="stats">
+                Stats
+            </ion-segment-button>
+        </ion-segment>
+
+        <div [ngSwitch]="segmentTab">
+            <div *ngSwitchCase="'members'">  
+                <ion-searchbar (ionInput)="getItems($event)" [placeholder]="'Search&nbsp;' + members.length + '&nbsp;members'"
+                    autocomplete="true" autocorrect="true"></ion-searchbar>
+            </div>
+            <div *ngSwitchCase="'attendances'">
+                <ion-label>filter functions here - to do!</ion-label>
+            </div>
+            <div *ngSwitchCase="'stats'">
+                <ion-label>Total Members: {{ members.length }}</ion-label>
+                <ion-label>Total Attendances: {{ attendances.length }}</ion-label>
+            </div>
+        </div>
+    </ion-toolbar>               
+</ion-header>
+
+
+<ion-content>
+        
+        
+        <div [ngSwitch]="segmentTab">
+            <div *ngSwitchCase="'members'">                
+                <ion-list>
+                    <ion-item class="member-list-item" *ngFor="let member of memberResults, let i=index" 
+                        [class.even-list-item]="i % 2 == 0" [class.odd-list-item]="i % 2 != 0" (click)="member_clickHandler(member)">
+                        <ion-avatar item-start>
+                            <img *ngIf="member.gender == 'M'" src="assets/imgs/avatar-male.png">
+                            <img *ngIf="member.gender == 'F'" src="assets/imgs/avatar-female.png">
+                        </ion-avatar>
+                        <h2>{{ member.lastname }}, {{ member.firstname }}</h2>
+                        <p>{{ member.nickname }} | {{ member.age }}</p>
+                        <button ion-button clear large item-end (click)="memberOptions_clickHandler($event, member)">
+                            <ion-icon name="md-more"></ion-icon>
+                        </button>
+                    </ion-item>
+                </ion-list>
+                <!--
+                <ion-list>
+                    <ion-item id="songItem" *ngFor="let member of memberResults" (click)="member_clickHandler(member)">
+                        <span id="songItemHeader">{{ member.lastname }}, {{ member.firstname }}</span><br>
+                        <span id="songItemSubheader">{{ member.age }} &nbsp; &bull; &nbsp; {{ member.gender }}</span>
+                        <button ion-button item-right clear large (click)="memberOptions_clickHandler($event, member)">                                
+                            <ion-icon name="md-more"></ion-icon>                           
+                        </button>
+                    </ion-item>
+                </ion-list>
+                -->                
+            </div>
+
+            <div *ngSwitchCase="'attendances'">
+                <ion-list>
+                    <ion-item class="member-list-item" *ngFor="let attendance of attendancesResults, let i=index" 
+                        [class.even-list-item]="i % 2 == 0" [class.odd-list-item]="i % 2 != 0"(click)="attendance_clickHandler(attendance)">
+                        <h2>{{ attendance.date }}</h2>
+                        <p>Attendees: {{ attendance.attendees.length }} | Absentees: {{ attendance.absentees.length }}</p>
+                        <button ion-button item-right clear large (click)="attendanceOptions_clickHandler($event, attendance)">                                
+                            <ion-icon name="md-more"></ion-icon>                           
+                        </button>
+                    </ion-item>
+                </ion-list>
+                <!--
+                <ion-list>
+                    <ion-card *ngFor="let attendance of attendancesResults" (click)="attendance_clickHandler(attendance)">
+                        <ion-card-header>
+                            {{ attendance.date }}
+                        </ion-card-header>
+                        <ion-card-content>
+                            <canvas baseChart
+                                [legend]="showPieChartLegend"
+                                [data]="[attendance.attendees.length, attendance.absentees.length]"
+                                [labels]="pieChartLabels"
+                                [chartType]="pieChartType"
+                                (chartHover)="chartHovered($event)"
+                                (chartClick)="chartClicked($event)"></canvas>
+
+                            <button ion-button item-right clear large (click)="memberOptions_clickHandler($event, member)">                                
+                                <ion-icon name="md-more"></ion-icon>                           
+                            </button>
+                        </ion-card-content>
+                    </ion-card>
+                </ion-list>
+            -->                                
+            </div>
+
+            <div *ngSwitchCase="'stats'">                
+                <div style="display: block; padding-top: 25px;">
+                    <canvas baseChart
+                            [datasets]="barChartData"
+                            [labels]="barChartLabels"
+                            [options]="barChartOptions"
+                            [legend]="barChartLegend"
+                            [chartType]="barChartType"
+                            (chartHover)="chartHovered($event)"
+                            (chartClick)="chartClicked($event)"></canvas>
+                </div>
+
+                <ion-item class="input-item">
+                    <ion-label stacked>From: </ion-label>
+                    <ion-label (click)="attendanceFromDate_clickHandler()">{{ attendanceFromDate }}</ion-label>
+                    <!-- <ion-datetime displayFormat="MM/DD/YYYY" [(ngModel)]="attendanceFromDate" (ionChange)="attendanceDate_changeHandler()"></ion-datetime> -->
+                </ion-item>
+                <ion-item class="input-item">
+                    <ion-label stacked>To: </ion-label>
+                    <ion-label (click)="attendanceToDate_clickHandler()">{{ attendanceToDate }}</ion-label>           
+                    <!-- <ion-datetime displayFormat="MM/DD/YYYY" [(ngModel)]="attendanceToDate" (ionChange)="attendanceDate_changeHandler()"></ion-datetime> -->
+                </ion-item>
+
+                <ion-grid class="leaderboard-div">
+                    <ion-row class="leaderboard-table-row odd-list-item" wrap>
+                        <ion-col col-2>
+                            <label class="leaderboard-table-header">Rank</label>
+                        </ion-col>
+                        <ion-col col-6>
+                            <label class="leaderboard-table-header">Name</label>
+                        </ion-col>
+                        <ion-col col-3>
+                            <label class="leaderboard-table-header">Total</label>
+                        </ion-col>
+                        <ion-col>
+                            <label class="leaderboard-table-header">%</label>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row class="leaderboard-table-row" *ngFor="let memberInfo of membersLeaderboard, let i=index"
+                        [class.even-list-item]="i % 2 == 0" [class.odd-list-item]="i % 2 != 0" wrap>
+                        <ion-col col-2>
+                            {{ i + 1 }}
+                        </ion-col>
+                        <ion-col col-6>
+                            {{ memberInfo.member.lastname }}, {{ memberInfo.member.firstname }}
+                        </ion-col>
+                        <ion-col col-3>
+                            {{ memberInfo.totalAttendance }}
+                        </ion-col>
+                        <ion-col>
+                            {{ memberInfo.percentage }}%
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>           
+            </div>
+        </div>    
+
+</ion-content>   
+
+<ion-fab *ngIf="segmentTab == 'members'" right bottom>
+    <button ion-fab color="primary" (click)="addMember_clickHandler()"><ion-icon name="md-add"></ion-icon></button>
+</ion-fab>
+<ion-fab *ngIf="segmentTab == 'attendances'" right bottom>
+    <button ion-fab color="primary" (click)="addAttendance_clickHandler()"><ion-icon name="md-add"></ion-icon></button>
+</ion-fab>

@@ -1,0 +1,70 @@
+<ion-header>
+  <ion-navbar color="nav-header">
+      <ion-title>
+        {{ attendance.date }}
+      </ion-title>
+    
+    <ion-buttons end>
+        <button ion-button icon-only (click)="presentPopover($event)">
+            <ion-icon name="more"></ion-icon>
+        </button>
+    </ion-buttons>
+  </ion-navbar>
+
+  <ion-toolbar>
+    <ion-searchbar (ionInput)="getItems($event)" [placeholder]="'Search&nbsp;' + memberResults.length + '&nbsp;members'"
+        autocomplete="true" autocorrect="true"></ion-searchbar>
+ 
+    <ion-grid class="attendance-subheader-content">
+        <ion-row>
+            <ion-col>
+                <h6 class="attendance-subheader-text">Attendees: {{ attendance.attendees.length }} | Absentees: {{ attendance.absentees.length }}</h6>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <ion-item>
+                    <ion-label stacked>Age</ion-label>
+                    <ion-select class="group-select" [(ngModel)]="selectedAgeGroup" (ionChange)="ageGroup_changeHandler()">
+                        <ion-option *ngFor="let age_group of age_groups" [value]="age_group">{{ age_group.label }}</ion-option>
+                    </ion-select>
+                </ion-item>
+            </ion-col>
+            <ion-col>
+                <ion-item>
+                    <ion-label stacked>Gender</ion-label>
+                    <ion-select class="group-select" [(ngModel)]="selectedGenderGroup" (ionChange)="genderGroup_changeHandler()">
+                        <ion-option *ngFor="let gender_group of gender_groups" [value]="gender_group">{{ gender_group.label }}</ion-option>
+                    </ion-select>
+                </ion-item>
+            </ion-col>
+            <ion-col>
+                <ion-item>
+                    <ion-label stacked>Show</ion-label>
+                    <ion-select class="group-select" [(ngModel)]="selectedShowGroup" (ionChange)="filterMembers()">
+                        <ion-option *ngFor="let show_group of show_groups" [value]="show_group">{{ show_group.label }}</ion-option>
+                    </ion-select>
+                </ion-item>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>       
+    <ion-list>
+        <ion-item class="member-list-item" *ngFor="let member of memberResults, let i=index"
+            [class.even-list-item]="i % 2 == 0" [class.odd-list-item]="i % 2 != 0" (click)="member_clickHandler(member)">
+            <ion-avatar item-start>
+                <img *ngIf="member.gender == 'M'" src="assets/imgs/avatar-male.png">
+                <img *ngIf="member.gender == 'F'" src="assets/imgs/avatar-female.png">
+            </ion-avatar>
+            <ion-label>
+                <h2>{{ member.lastname }}, {{ member.firstname }}</h2>
+                <p>{{ member.nickname }} | {{ member.age }}</p>
+            </ion-label>            
+            <ion-checkbox item-end color="dark" [(ngModel)]="member.isPresent" [checked]="member.isPresent" (ionChange)="checkbox_clickHandler(member)"></ion-checkbox>
+        </ion-item>
+    </ion-list>
+
+</ion-content>   

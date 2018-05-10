@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-navbar>
+      <ion-searchbar (ionInput)="getItems($event)" [placeholder]="'Search&nbsp;' + personResults.length + '&nbsp;persons'"
+          autocomplete="true" autocorrect="true"></ion-searchbar>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list [virtualScroll]="personResults">
+      <ion-item id="songItem" *virtualItem="let person" (click)="songItemClicked(song)">
+          <span id="songItemHeader">{{ person.firstname }}</span><br>
+          <span id="songItemSubheader">{{ person.age }} &nbsp; &bull; &nbsp; {{ person.gender }}</span>
+          <button ion-button item-right clear large (click)="openMoreOptions($event, song)">                                
+              <ion-icon name="md-more"></ion-icon>                           
+          </button>
+      </ion-item>
+  </ion-list>
+
+  <ion-fab right bottom>
+      <button ion-fab color="light" (click)="addSongClick()"><ion-icon name="md-add"></ion-icon></button>
+  </ion-fab>
+
+</ion-content>   

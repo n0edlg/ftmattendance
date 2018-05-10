@@ -1,0 +1,19 @@
+<ion-list>
+  <ion-list-header>Filters</ion-list-header>
+    <ion-item>
+      <ion-label>Show Boys</ion-label>
+      <ion-checkbox item-right color="dark" [(ngModel)]="viewCtrl.data.showBoys" [checked]="viewCtrl.data.showBoys" (ionChange)="viewCtrl.data.callback(viewCtrl.data)"></ion-checkbox>
+    </ion-item>  
+    <ion-item>
+      <ion-label>Show Girls</ion-label>
+      <ion-checkbox item-right color="dark" [(ngModel)]="viewCtrl.data.showGirls" [checked]="viewCtrl.data.showGirls" (ionChange)="viewCtrl.data.callback(viewCtrl.data)"></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <ion-label>Show Attendees</ion-label>
+      <ion-checkbox item-right color="dark" [(ngModel)]="viewCtrl.data.showAttendees" [checked]="viewCtrl.data.showAttendees" (ionChange)="viewCtrl.data.callback(viewCtrl.data)"></ion-checkbox>
+    </ion-item>
+    <ion-item>
+      <ion-label>Show Absentees</ion-label>
+      <ion-checkbox item-right color="dark" [(ngModel)]="viewCtrl.data.showAbsentees" [checked]="viewCtrl.data.showAbsentees" (ionChange)="viewCtrl.data.callback(viewCtrl.data)"></ion-checkbox>
+    </ion-item>
+</ion-list>

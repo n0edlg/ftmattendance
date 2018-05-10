@@ -1,0 +1,129 @@
+<ion-header>
+  <ion-navbar color="nav-header">
+      
+      <ion-buttons end>
+          <button ion-button (click)="editSavebtn_clickHandler()">
+              {{ onEdit ? 'Save' : 'Edit' }}
+          </button>
+      </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <div class="profile-image-content">
+      <img *ngIf="member.gender == 'M'" src="assets/imgs/avatar-male.png" width="200px" height="200px">
+      <img *ngIf="member.gender == 'F'" src="assets/imgs/avatar-female.png" width="200px" height="200px">
+  </div>
+    
+  <ion-item class="input-item">
+    <ion-label stacked>Firstname</ion-label>
+    <ion-input type="text" [disabled]="!onEdit" [(ngModel)]="member.firstname"></ion-input>
+  </ion-item>
+  <ion-item class="input-item">
+    <ion-label stacked>Middlename</ion-label>
+    <ion-input type="text" [disabled]="!onEdit" [(ngModel)]="member.middlename"></ion-input>
+  </ion-item>
+  <ion-item class="input-item">
+    <ion-label stacked>Lastname</ion-label>
+    <ion-input type="text" [disabled]="!onEdit" [(ngModel)]="member.lastname"></ion-input>
+  </ion-item>
+  <ion-item class="input-item">
+    <ion-label stacked>Nickname</ion-label>
+    <ion-input type="text" [disabled]="!onEdit" [(ngModel)]="member.nickname"></ion-input>
+  </ion-item>
+  <ion-item class="input-item">
+    <ion-label stacked>Birthdate</ion-label>
+    <!-- <ion-input *ngIf="false" type="text" [disabled]="!onEdit" [(ngModel)]="birthdate"></ion-input> -->
+    <ion-datetime displayFormat="MM/DD/YYYY" [disabled]="!onEdit" [(ngModel)]="birthdate"></ion-datetime>    
+  </ion-item>
+  <ion-item class="input-item">
+    <ion-label stacked>Age</ion-label>
+    <ion-input type="text" [disabled]="!onEdit" [(ngModel)]="member.age"></ion-input>
+  </ion-item>
+  <ion-item class="input-item">
+    <ion-label stacked>Gender</ion-label>
+    <ion-input type="text" [disabled]="!onEdit" [(ngModel)]="member.gender"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>TPoints: </ion-label>
+    <ion-label>{{ member.tpoints }}</ion-label>
+    <button ion-button item-right (click)="tpointsAddOrSubBtn_clickHandler(false)">
+        <ion-icon name="md-remove"></ion-icon>
+    </button>
+    <button ion-button item-right (click)="tpointsAddOrSubBtn_clickHandler(true)">
+        <ion-icon name="md-add"></ion-icon>
+    </button>
+  </ion-item>
+
+  <!--
+  <div *ngFor="let group_attendance of group_attendances">
+    <ion-item>
+      <ion-label>{{ group_attendance.group.name }}</ion-label>      
+    </ion-item>
+    <canvas baseChart
+      [legend]="showPieChartLegend"
+      [data]="[group_attendance.totalAttendance, group_attendance.totalAbsences]"
+      [labels]="['Attendance', 'Absences']"
+      [chartType]="pieChartType"></canvas>
+    <ion-row>
+        <ion-col>
+            <strong>Date</strong>
+        </ion-col>
+        <ion-col>
+            <strong>Attendance</strong>
+        </ion-col>
+    </ion-row>
+    <ion-row *ngFor="let attendance of group_attendance.attendances, let i=index">
+        <ion-col>
+            {{ attendance.date }}
+        </ion-col>
+        <ion-col>
+            <span *ngIf="attendance.attendees.indexOf(member.id) == -1" style="color: #AA1122">Absent</span>
+            <span *ngIf="attendance.attendees.indexOf(member.id) != -1" style="color: #11AA22">Present</span>
+        </ion-col>
+    </ion-row>
+  </div>
+-->
+
+  <div class="group-calendar-content">
+    <!--
+    <button ion-button [disabled]="isToday" (click)="today()">Today</button>
+    <button ion-button (click)="changeMode('month')">M</button>
+    <button ion-button (click)="changeMode('week')">W</button>
+    <button ion-button (click)="changeMode('day')">D</button>
+    <button ion-button (click)="loadEvents()">Load Events</button>
+    -->
+    <ion-list>
+      <ion-item>
+        <!-- <ion-label>Groups</ion-label> -->
+        <ion-select class="group-select" [(ngModel)]="selectedGroup" (change)="group_changeHandler()">
+          <ion-option *ngFor="let group of groups" [value]="group">{{ group.name }}</ion-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+
+    <ion-item>
+      <ion-label>Total Attendance: {{ totalMemberAttendance }} / {{ totalGroupAttendances }} ({{ memberAttendancePercentage }}%)</ion-label>
+    </ion-item>
+
+    <canvas baseChart
+      [datasets]="lineChartData"
+      [labels]="lineChartLabels"
+      [options]="lineChartOptions"
+      [chartType]="lineChartType"></canvas>
+<!--
+    <ion-label>{{viewTitle}}</ion-label>
+    <calendar [eventSource]="eventSource"
+      [calendarMode]="calendar.mode"
+      [currentDate]="calendar.currentDate"
+      (onCurrentDateChanged)="onCurrentDateChanged($event)"
+      (onEventSelected)="onEventSelected($event)"
+      (onTitleChanged)="onViewTitleChanged($event)"
+      (onTimeSelected)="onTimeSelected($event)"
+      step="30">
+    </calendar>
+  -->
+    <summary-calendar [data]="calendarSummaryData"></summary-calendar>
+  </div>
+</ion-content>   

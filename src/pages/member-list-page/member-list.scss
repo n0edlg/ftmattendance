@@ -1,0 +1,47 @@
+.item-md.item-block .item-inner {
+    border-bottom: none;
+    padding-right: 0px;
+}
+
+.item-md {
+    
+}
+
+.member-list-item {
+    border-bottom: 1px solid #dedede;
+    padding-left: 25px !important;
+}
+
+.odd-list-item {
+    background-color: #eee;
+}
+
+.even-list-item {
+    background-color: #fff;
+}
+
+.searchbar-md {
+    padding: 8px 20px !important;
+}
+
+.searchbar-md .searchbar-input {
+    box-shadow: none;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+}
+
+.leaderboard-div {
+    padding: 0px;
+}
+
+.leaderboard-table-header {
+    //color: #aaaaaa;
+}
+
+.leaderboard-table-row {
+    //text-align: center;
+    //min-height: 50px;
+    display: flex;
+    align-items: center;
+    padding: 20px;
+}

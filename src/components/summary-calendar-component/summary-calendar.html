@@ -1,0 +1,40 @@
+<ion-grid class="calendar-grid">
+  <ion-row>
+    <ion-col class="year-title" width-100>
+      <h3>2017</h3>
+    </ion-col>
+  </ion-row>
+
+  <ion-row *ngFor="let item of colData">
+    <ion-col col-3>
+        <h6>{{ item.month }}</h6>         
+    </ion-col>
+
+    <ion-col>
+      <ion-grid>
+        <ion-row>
+          <ion-col *ngFor="let date of item.dates">
+            <div class="date-circle" [class.isPresent]="date.isPresent" [class.isAbsent]="!date.isPresent">{{ date.day }}</div>
+          </ion-col>
+        </ion-row>
+      </ion-grid> 
+    </ion-col>
+  </ion-row>
+<!--
+  <ion-row *ngFor="let row of grid">
+    <ion-col width-50 *ngFor="let item of row" class="data-col">
+        <div class="month-title">
+          <h6>{{ item.month }}</h6>
+        </div>
+
+        <ion-grid>
+          <ion-row *ngFor="let daterow of item.dateGrid" class="date-row">
+            <ion-col *ngFor="let datecol of daterow" class="date-col" width-25>
+              <div *ngIf="datecol != null" class="date-circle" [class.isPresent]="datecol.isPresent" [class.isAbsent]="!datecol.isPresent">{{ datecol.day }}</div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>      
+    </ion-col>
+  </ion-row>
+-->
+</ion-grid>

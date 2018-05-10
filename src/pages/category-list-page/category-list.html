@@ -1,0 +1,66 @@
+<ion-header>
+  <ion-navbar color="nav-header">
+        <ion-title>
+            FTM Attendance
+        </ion-title> 
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="main-content">
+    <!--
+    <ion-list>
+        <ion-card *ngFor="let category of categories" (click)="category_clickHandler(category)">
+            <ion-card-content>
+                <ion-card-title>
+                    {{ category.name }}
+                </ion-card-title>
+            </ion-card-content>
+        </ion-card>
+    </ion-list>
+    -->
+
+    <ion-grid>
+        <ion-row *ngFor="let row of grid" wrap no-padding>
+            <ion-col width-50 *ngFor="let item of row">
+                <ion-card *ngIf="item != null" (click)="category_clickHandler(item)">
+                    <img class="category-image" src="assets/imgs/avatar-male.png">
+                    <ion-card-content class="category-content">
+                        <h6 class="category-card-title">{{ item.name.toLocaleUpperCase() }}</h6>
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+    <!--
+    <ion-grid>
+        <ion-row wrap no-padding>
+            <ion-col width-50 *ngFor="let category of categories">
+                <ion-card (click)="category_clickHandler(category)">
+                    <img class="category-item" src="assets/imgs/avatar-male.png">
+                    <ion-card-content>
+                        <h6>{{ category.name }}</h6>
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+    -->
+<!--
+    <ion-card>
+        <img src="img/nin-live.png"/>
+        <ion-card-content>
+            <ion-card-title>
+            Nine Inch Nails Live
+            </ion-card-title>
+            <p>
+            The most popular industrial group ever, and largely
+            responsible for bringing the music to a mass audience.
+            </p>
+        </ion-card-content>
+    </ion-card>
+-->
+  <ion-fab right bottom>
+      <button ion-fab color="dark-fab" (click)="addCategory_clickHandler()"><ion-icon name="md-add"></ion-icon></button>
+  </ion-fab>
+
+</ion-content>   
